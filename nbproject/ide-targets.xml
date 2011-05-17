@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." name="jffnbpt-IDE" default="debug-nb">
+    <import file="../build.xml"/>
+    <!-- TODO: edit the following target according to your needs -->
+    <!-- (more info: http://www.netbeans.org/kb/articles/freeform-config.html#debugj2se) -->
+    
+    <property file="debug.properties"/>
+    
+    <target name="debug-compile" depends="init, classpath-to-file">
+        <javac 
+            srcdir="${src.dir}" destdir="${build.classes.dir}" 
+            includeantruntime="false" debug="true" debuglevel="lines,vars,source" 
+        />
+    </target>
+    
+    <target name="debug-jar" depends="debug-compile">
+        <mkdir dir="${build.jar.dir}"/>
+        <buildnumber file="build.num"/>
+        <jar destfile="${build.jar.dir}/${build.jar.name}.jar" basedir="${build.classes.dir}">
+            <manifest>
+                <attribute name="Built-By" value="${author}"/>
+                <attribute name="Main-Class" value="${entrypoint.class.pkg}.${entrypoint.class.name}"></attribute>
+                <attribute name="Implementation-Version" value="${version.num}-b${build.number}"/> 
+                <attribute name="Built-Date" value="${TODAY}"/>
+            </manifest>
+        </jar>
+    </target>
+    
+    <target depends="debug-jar" name="debug-nb">
+       <nbjpdastart addressproperty="jpda.address" name="jffnbpt" transport="dt_socket">
+       </nbjpdastart>
+       <java fork="true" jar="${build.jar.dir}/${build.jar.name}.jar">
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
+        </java>
+    </target>
+</project>
