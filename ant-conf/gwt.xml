@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project basedir="..">
+    
+    <property file="${ant.conf.dir}/gwt.properties" />
+    
+    <import file="common.xml" />
+    
+    <path id="project.class.path">
+        <pathelement location="${war.webinf.classes.dir}" />
+        <pathelement location="${gwt.sdk}/gwt-user.jar" />
+        <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
+        <fileset dir="${gwt.sdk}" includes="validation*.jar" />
+        
+        <!-- Add any additional non-server libs (such as JUnit) -->
+        <fileset dir="${war.webinf.lib.dir}" includes="**/*.jar"/>
+    </path>
+    
+    <target name="devmode" depends="compile-g">
+        <java failonerror="true" fork="true" classname="com.google.gwt.dev.DevMode">
+          <classpath>
+            <pathelement location="src"/>
+            <path refid="project.class.path"/>
+            <pathelement location="${gwt.dir}/validation-api-1.0.0.GA.jar" />
+            <pathelement location="${gwt.dir}/validation-api-1.0.0.GA-sources.jar" />
+          </classpath>
+          <jvmarg value="-Xmx256M"/>
+          <arg value="-startupUrl"/>
+          <arg value="${gwt.startup.url}"/>
+          <arg line="-war"/>
+          <arg value="${war.dir}"/>
+
+          <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
+          <arg line="${gwt.args}"/>
+          <arg value="${project.company.pkg}.${project.name}"/>
+        </java>
+    </target>
+    
+    <target name="gwtc" depends="compile-g">
+        <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+          <classpath>
+            <pathelement location="src"/>
+            <path refid="project.class.path"/>
+            <pathelement location="${gwt.dir}/validation-api-1.0.0.GA.jar" />
+            <pathelement location="$[gwt.dir}/validation-api-1.0.0.GA-sources.jar" />
+          </classpath>
+
+          <!-- add jvmarg -Xss16M or similar if you see a StackOverflowError -->
+          <jvmarg value="-Xmx256M"/>
+          <arg line="-war"/>
+          <arg value="${war.dir}"/>
+
+          <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
+          <arg line="${gwt.args}"/>
+          <arg value="${project.company.pkg}.${project.name}"/>
+
+          <arg line="-logLevel"/>
+          <arg value="ALL"/>
+
+        </java>
+    </target>
+    
+    <target name="build" depends="gwtc">
+        
+    </target>
+    
+    <target name="war" depends="build">
+        <zip destfile="${war.file.dest}" basedir="${war.dir}"/>
+    </target>
+
+</project>

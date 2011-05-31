@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..">
+    
+    <target name="gwt-clean">
+        <delete dir="${war.webinf.classes.dir}" failonerror="false" />
+        <delete dir="${war.webinf.lib.dir}" failonerror="false" />
+        <delete dir="${war.dir}/${project.name}" failonerror="false" />
+    </target>
+    
+    <target name="gwt-libs">
+        <mkdir dir="${war.webinf.lib.dir}" />
+        <copy todir="${war.webinf.lib.dir}" file="${gwt.sdk}/gwt-servlet.jar" />
+        <copy todir="${war.webinf.lib.dir}" file="${gwt.sdk}/gwt-servlet-deps.jar" />
+    </target>
+    
+    <target name="gwt-init">
+        <mkdir dir="${war.webinf.classes.dir}"/>
+    </target>
+
+</project>
