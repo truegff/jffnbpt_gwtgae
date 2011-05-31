@@ -1,83 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="jffnbpt" basedir="." default="compile">
-    <property file="alexander.properties"/>
-    <property file="default.properties"/>
-
-    <!--
-        Cleans files created by previous compile.
-    -->
-    <target name="clean">
-        <delete dir="build"/>
-        <delete file="cp.compile.properties"/>
-    </target>
-
-    <!--
-        Initializing.
-        Depends: clean.
-    -->
-    <target name="init" depends="clean">
-        <!-- Create the time stamp -->
-        <tstamp>
-            <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
-        </tstamp>
-        <!-- Create the build directory structure used by compile -->
-        <mkdir dir="${build.dir}"/>
-        <mkdir dir="${build.classes.dir}"/>
-    </target>
-
-
-    <!--
-        Writes classpath to properties file
-        Depends:
-    -->
-    <target name="classpath-to-file">
-        <!-- declare the classpath reference -->
-        <path id="cp.compile.id">
-            <fileset dir="${lib.compile.dir}" />
-        </path>
-
-        <!-- copy the reference to a property -->
-        <property name="cp.compile" refid="cp.compile.id" />
-
-        <!-- copy the property to a file -->
-        <propertyfile file="cp.compile.properties">
-            <entry operation="=" key="cp.compile" value="${cp.compile}"/>
-        </propertyfile>
-    </target>
-
-    <!--
-        Compiles the source files.
-        Depends: Cleaning.
-    -->
-    <target name="compile" depends="init, classpath-to-file">
-        <!-- touch file="${DSTAMP}${TSTAMP}.log" / -->
-        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" includeantruntime="false" />
-    </target>
-
-    <!--
-        Creates a jar file out of classfiles created by Compile.
-        Depends: Compilation.
-    -->
-    <target name="jar" depends="compile">
-        <mkdir dir="${build.jar.dir}"/>
-        <buildnumber file="build.num"/>
-        <jar destfile="${build.jar.dir}/${build.jar.name}.jar" basedir="${build.classes.dir}">
-            <manifest>
-                <attribute name="Built-By" value="${author}"/>
-                <attribute name="Main-Class" value="${entrypoint.class.pkg}.${entrypoint.class.name}"></attribute>
-                <attribute name="Implementation-Version" value="${version.num}-b${build.number}"/> 
-                <attribute name="Built-Date" value="${TODAY}"/>
-                
-            </manifest>
-        </jar>
-    </target>
-
-    <!--
-        Runs the Jar file.
-        Depends: JAR creation.
-    -->
-    <target name="run" depends="jar">
-        <java jar="${build.jar.dir}/${build.jar.name}.jar" fork="true"/>
-    </target>
-
+<project name="jffnbpt" basedir=".">
+    <property name="ant.conf.dir" value="./ant-conf" />
+    
+    <property file="${ant.conf.dir}/${user.name}.properties" />
+    <property file="${ant.conf.dir}/default.properties" />
+    
+    <echo message="Working with a ${project.type} project right now." />
+    <import file="${ant.conf.dir}/${project.type}.xml" optional="false" />
 </project>

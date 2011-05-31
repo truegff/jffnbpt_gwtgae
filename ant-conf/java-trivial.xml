@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..">
+    <description>
+        Trivial pure java project tasks:
+            java-clean
+            java-libs
+            java-init
+    </description>
+    
+    <target name="java-clean">
+        <delete dir="build"/>
+    </target>
+    
+    <target name="java-libs">
+        
+    </target>
+    
+    <target name="java-init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.classes.dir}"/>
+    </target>
+
+</project>

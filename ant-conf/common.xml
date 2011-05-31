@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..">
+    
+    <!-- import subtasks -->
+    <import file="${project.type}-trivial.xml" />
+    
+    <!-- clean-all -->
+    <target name="clean">
+        <antcall target="${project.type}-clean" />
+    </target>
+    
+    <target name="copyjars">
+        <antcall target="${project.type}-libs" />
+    </target>
+    
+    <target name="init" depends="clean,copyjars">
+        <antcall target="${project.type}-init" />
+    </target>
+    
+    <!--
+        Writes classpath to properties file
+        Depends:
+    -->
+    <target name="classpath-to-propsfile">
+        <!-- declare the classpath reference -->
+        <path id="cp.compile.id">
+            <fileset dir="${lib.compile.dir}" />
+        </path>
+
+        <!-- copy the reference to a property -->
+        <property name="cp.compile" refid="cp.compile.id" />
+
+        <!-- copy the property to a file -->
+        <propertyfile file="cp.compile.properties">
+            <entry operation="=" key="cp.compile" value="${cp.compile}"/>
+        </propertyfile>
+    </target>
+    
+    <!--
+        Compiles the source files.
+        Depends: Cleaning.
+    -->
+    <target name="compile-java" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" includeantruntime="false" />
+    </target>     
+    
+    <target name="compile-g" depends="init">
+        <javac srcdir="${src.dir}" includes="**" encoding="utf-8"
+            destdir="${war.webinf.classes.dir}"
+            source="1.5" target="1.5" nowarn="true"
+            debug="true" debuglevel="lines,vars,source"
+             includeantruntime="false" >
+            <classpath refid="project.class.path"/>
+        </javac>
+        <copy todir="${war.webinf.classes.dir}">
+          <fileset dir="src" excludes="**/*.java"/>
+        </copy>
+    </target>
+</project>

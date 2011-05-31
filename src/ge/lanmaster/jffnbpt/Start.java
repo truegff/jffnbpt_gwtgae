@@ -1,6 +1,6 @@
 package ge.lanmaster.jffnbpt;
 
-public class ABC {
+public class Start {
     public static void main(String[] args) {
         System.out.println("1. Voila, it works!");
         int a = 5;
