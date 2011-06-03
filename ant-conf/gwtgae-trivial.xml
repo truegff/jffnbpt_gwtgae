@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..">
+    
+    <import file="gwt-trivial.xml" />
+    
+    <target name="gwtgae-clean">
+        <antcall target="gwt-clean" />
+    </target>
+    
+    <target name="gwtgae-libs">
+        <mkdir dir="${war.webinf.lib.dir}" />
+        
+        <!-- GWT Stuff -->
+        <antcall target="gwt-libs" />
+    
+        <!-- GAE Stuff -->
+        <copy todir="${war.webinf.lib.dir}" flatten="true">
+            <fileset dir="${gae.sdk}/lib/user" includes="**/*.jar" />
+        </copy>
+    </target>
+    
+    <target name="gwtgae-init">
+        <antcall target="gwt-init" />
+    </target>
+    
+</project>

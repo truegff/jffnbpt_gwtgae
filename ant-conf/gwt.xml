@@ -3,17 +3,21 @@
     
     <property file="${ant.conf.dir}/gwt.properties" />
     
+    <!--
     <import file="common.xml" />
+    -->
     
+    <!--
     <path id="project.class.path">
         <pathelement location="${war.webinf.classes.dir}" />
         <pathelement location="${gwt.sdk}/gwt-user.jar" />
         <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
-        <fileset dir="${gwt.sdk}" includes="validation*.jar" />
+        <fileset dir="${gwt.sdk}" includes="validation*.jar" /> -->
         
         <!-- Add any additional non-server libs (such as JUnit) -->
-        <fileset dir="${war.webinf.lib.dir}" includes="**/*.jar"/>
-    </path>
+       <!--  <fileset dir="${war.webinf.lib.dir}" includes="**/*.jar"/>
+    </path> -->
+    
     
     <target name="devmode" depends="compile-g">
         <java failonerror="true" fork="true" classname="com.google.gwt.dev.DevMode">

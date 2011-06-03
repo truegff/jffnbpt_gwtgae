@@ -1,31 +1,7 @@
-JFFNBPT - Java Free-Form NetBeans Project Template
+I'm lazy to write any README content. 
 
-One day I realized that would like to be able to edit Ant build scripts manually,
-and use IDE only for refactoring. NB is my favorite IDE so, that's why I decided
-to make a unzip-rename-start_working template for it.
+Contact me by email, if you'll have questions. 
 
-Basically, that is why You're reading this text ;).
-
-Created in environment:
-
-    Product Version: NetBeans IDE 7.0 (Build 201104080000)
-    Java: 1.6.0_24; Java HotSpot(TM) 64-Bit Server VM 19.1-b02
-    System: Linux version 2.6.32-28-generic running on amd64; UTF-8; en_US (nb)
-    Userdir: /home/alexander/.netbeans/7.0
-
-Please consider changing following in order to make it work if it doesn't 'work from the box':
-
-    1. Rename 'alexander.properties' file to 'your_system_username.properties'
-    2. Adjust it's contents according to your needs. Remember it overrides 
-       properties set in 'default.properties' file so use contents of the last
-       as an example, but do not delete it.
-    3. In case you will rename project folder manually (not using NetBeans),
-       consider making appropriate changes to ./nbproject/project.xml file.
-
-No warranties that this template will work from first run in your environment, or work at all. 
-
-Feel free to contact me. 
-At least I will try to help.
 
 Alexander Dolidze
 alexander.dolidze(at)gmail.com

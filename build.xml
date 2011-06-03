@@ -2,8 +2,9 @@
 <project name="jffnbpt" basedir=".">
     <property name="ant.conf.dir" value="./ant-conf" />
     
+    
     <property file="${ant.conf.dir}/${user.name}.properties" />
-    <property file="${ant.conf.dir}/default.properties" />
+    <!-- <property file="${ant.conf.dir}/default.properties" /> -->
     
     <echo message="Working with a ${project.type} project right now." />
     <import file="${ant.conf.dir}/${project.type}.xml" optional="false" />

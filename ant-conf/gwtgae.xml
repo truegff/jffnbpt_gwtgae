@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..">
+    
+    <property file="${ant.conf.dir}/gwtgae.properties" />
+    
+    <import file="common.xml" />
+    
+    <import file="${basedir}/${gae.sdk}/config/user/ant-macros.xml" />
+    
+    <import file="gwt.xml" />
+    
+    <path id="project.class.path">
+        <pathelement location="${war.webinf.classes.dir}" />
+        
+        <!-- GWT Stuff -->
+        <pathelement location="${gwt.sdk}/gwt-user.jar" />
+        <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
+        <fileset dir="${gwt.sdk}" includes="validation*.jar" />
+        
+        <!-- GAE Stuff -->
+        <fileset dir="${gae.sdk}/lib" includes="shared/**/*.jar" />
+        
+        <!-- Add any additional non-server libs (such as JUnit) -->
+        <fileset dir="${war.webinf.lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="datanucleusenhance" depends="compile-g"
+    description="Performs enhancement on compiled data classes.">
+        <enhance_war war="${war.dir}" />
+    </target>
+    
+    <target name="runserver" depends="datanucleusenhance"
+    description="Starts the development server.">
+        <dev_appserver war="${war.dir}" />        
+    </target>
+    
+    <target name="update" depends="datanucleusenhance"
+    description="Uploads the application to App Engine.">
+        <appcfg action="update" war="${war.dir}">
+            <options>
+                <arg value="--email=alexander.dolidze@gmail.com" />
+            </options>
+        </appcfg>
+    </target>
+    
+    <target name="update_indices" depends="datanucleusenhance"
+    description="Uploads just the datastore index configuration to App Engine.">
+        <appcfg action="update_indexes" war="${war.dir}" />
+    </target>
+    
+    <target name="rollback" depends="datanucleusenhance"
+    description="Rolls back an interrupted application update.">
+        <appcfg action="rollback" war="${war.dir}" />
+    </target>
+    
+    <target name="request_logs"
+    description="Downloads log data from App Engine for the application.">
+        <appcfg action="request_logs" war="${war.dir}">
+            <options>
+                <arg value="--num_days=5" />
+            </options>
+            <args>
+                <arg value="logs.txt" />
+            </args>
+        </appcfg>        
+    </target>
+
+</project>
